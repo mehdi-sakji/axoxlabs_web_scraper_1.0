@@ -55,7 +55,7 @@ class PremiumTimesScraper(scrapy.Spider):
             image_url = image_urls[0]
         author = response.css(".jeg_meta_author")[0].css("a::text").extract_first().strip()
         posted_date = response.css(".jeg_meta_date")[0].css("a::text").extract_first().strip()
-        paragraphs = response.css(".entry-content")[0]("p::text").extract()
+        paragraphs = response.css(".entry-content")[0].css("p::text").extract()
         description = " ".join(paragraphs)
         yield {
             'headline': headline,

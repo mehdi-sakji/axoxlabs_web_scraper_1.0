@@ -44,7 +44,7 @@ class DailyPostScraper(scrapy.Spider):
 
     def scrape_item(self, response):
 
-        headline = response.css(".mvp-post-main")[0].css("h1::text").extract_first()
+        headline = response.css(".mvp-post-title::text").extract_first()
         try:
             image_url = response.css("#mvp-post-feat-img")[0].css("img::attr(src)").extract_first()
         except:
