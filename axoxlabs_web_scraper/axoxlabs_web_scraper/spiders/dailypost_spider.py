@@ -17,9 +17,9 @@ class DailyPostScraper(scrapy.Spider):
         Yields list of categories URLs to scrape.
         """
 
-        # exact page count
+        # upper limit page counts, only for first execution, then just scan the n last pages
         # list_categories_pages = {
-        #    "politics": 3888, "hot-news": 11228, "sport-news": 4626, "entertainment": 918
+        #    "politics": 4000, "hot-news": 11800, "sport-news": 5000, "entertainment": 1200
         # }
         list_categories_pages = {
             "politics": 2, "hot-news": 2, "sport-news": 2, "entertainment": 2

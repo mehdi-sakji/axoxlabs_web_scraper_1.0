@@ -3,7 +3,8 @@ https://www.vanguardngr.com/ scraper.
 """
 
 import scrapy
-
+from scrapy.spiders import Rule
+from scrapy.linkextractors import LinkExtractor
 
 class VanguardScraper(scrapy.Spider):
     """
@@ -11,6 +12,8 @@ class VanguardScraper(scrapy.Spider):
     """
 
     name = "vanguard_scraper"
+    
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
 
     def start_requests(self):
         """
@@ -28,7 +31,16 @@ class VanguardScraper(scrapy.Spider):
             "https://www.vanguardngr.com/category/{}/".format(item) for item in list_categories]
         for url, category in zip(lists_urls, list_categories):
             yield scrapy.Request(
-                url=url, meta={"category": category}, callback=self.scrape_items)
+                url=url, meta={"category": category}, headers={'User-Agent': self.user_agent}, callback=self.scrape_items)
+
+    def set_user_agent(self, request, spider):
+        request.headers['User-Agent'] = self.user_agent
+        return request
+    
+    rules = (
+        Rule(LinkExtractor(restrict_xpaths="//h1[@class='post-title']/a"), callback='parse_item', follow=True, process_request='set_user_agent'),
+         Rule(LinkExtractor(restrict_xpaths="//h3[@class='entry-title']/a"), callback='parse_item', follow=True, process_request='set_user_agent')
+    )
 
     def scrape_items(self, response):
 

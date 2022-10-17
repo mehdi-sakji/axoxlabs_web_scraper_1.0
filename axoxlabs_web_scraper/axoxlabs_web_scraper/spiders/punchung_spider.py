@@ -20,7 +20,7 @@ class PunchungScraper(scrapy.Spider):
 
         list_categories = [
             "politics", "news", "sports", "entertainment", "business"]
-        list_categories = list_categories[:3]  # Temporarily test 3 categories
+        list_categories = list_categories[:3]  # Temporarily test 3 categories, health needs a custom scraper
         lists_urls = [
             "https://punchng.com/topics/{}".format(item) for item in list_categories]
         for url, category in zip(lists_urls, list_categories):
