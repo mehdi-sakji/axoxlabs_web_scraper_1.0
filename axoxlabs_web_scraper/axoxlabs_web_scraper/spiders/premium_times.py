@@ -1,16 +1,9 @@
-"""
-https://www.premiumtimesng.com/ scraper.
-"""
-
 import scrapy
 
 
-class PremiumTimesScraper(scrapy.Spider):
-    """
-    Spider for scraping https://www.premiumtimesng.com/ articles.
-    """
+class PremiumTimesSpider(scrapy.Spider):
 
-    name = "premium_times_scraper"
+    name = "premium_times"
 
     def start_requests(self):
         """
@@ -63,7 +56,7 @@ class PremiumTimesScraper(scrapy.Spider):
             'author': author,
             'posted_date': posted_date,
             'description': description,
-            'newspaper_name': "Premium Times Ng Newspaper",
+            'newspaper_name': "Premium Times",
             'category': response.meta["category"],
             'url': response.url
         }

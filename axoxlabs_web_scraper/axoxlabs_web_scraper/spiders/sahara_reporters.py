@@ -2,9 +2,9 @@ import scrapy
 import re
 
 
-class SaharaReporters(scrapy.Spider):
+class SaharaReportersSpider(scrapy.Spider):
 
-    name = "saharareporters"
+    name = "sahara_reporters"
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0'}
 
     def start_requests(self):
@@ -34,7 +34,6 @@ class SaharaReporters(scrapy.Spider):
     def scrape_page_items(self, response):
 
         article_blocks = response.css(".views-element-container")[0].css(".card-content")
-        print(len(article_blocks))
         for article in article_blocks[:1]:
             article_url = article.css("a::attr(href)").extract_first()
             yield scrapy.Request(
@@ -42,7 +41,6 @@ class SaharaReporters(scrapy.Spider):
 
     def scrape_item(self, response):
 
-        print(response.url)
         headline = response.css("h1")[0].css("span::text").extract_first().strip()
         article_main_block = response.css(".node--type-article")[0]
         try:
