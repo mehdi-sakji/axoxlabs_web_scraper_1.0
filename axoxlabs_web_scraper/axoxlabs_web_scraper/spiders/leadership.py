@@ -47,7 +47,7 @@ class Leadership(scrapy.Spider):
             # No image
             image_url = ""
             pass
-        authors_blocks = response.css("jeg_meta_author")[0].css("a::text").extract()
+        authors_blocks = response.css(".jeg_meta_author")[0].css("a::text").extract()
         author = ", ".join([item.strip() for item in authors_blocks])
         posted_date = response.css(".jeg_meta_date")[0].css("a::text").extract_first().strip()
         paragraphs = response.css(".content-inner")[0].css("p::text").extract()
