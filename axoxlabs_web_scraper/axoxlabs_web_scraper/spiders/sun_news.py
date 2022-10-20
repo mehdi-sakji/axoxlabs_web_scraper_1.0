@@ -11,13 +11,14 @@ class SunNewsSpider(scrapy.Spider):
         Yields list of categories URLs to scrape.
         """
 
-        list_categories = [
-            "business", "politics", "sporting-sun", "entertainment"]
+        categories_mapping = {
+            "politics": "politics",
+            "business": "business", "sporting-sun": "sports", "entertainment": "entertainment"}
         lists_urls = [
-            "https://www.sunnewsonline.com/category/{}/".format(item) for item in list_categories]
-        for url, category in zip(lists_urls, list_categories):
+            "https://www.sunnewsonline.com/category/{}/".format(item) for item in categories_mapping.keys()]
+        for url, category in zip(lists_urls, categories_mapping.keys()):
             yield scrapy.Request(
-                url=url, headers=self.headers, meta={"category": category}, callback=self.scrape_items)
+                url=url, headers=self.headers, meta={"category": categories_mapping[category]}, callback=self.scrape_items)
 
     def scrape_items(self, response):
 
@@ -43,6 +44,7 @@ class SunNewsSpider(scrapy.Spider):
         try:
             image_url = response.css(".featured_image")[0].css("a::attr(href)").extract_first()
         except:
+            # No image
             image_url = ""
             pass
         author = response.css(".jeg_author_name::text").extract_first().strip()
