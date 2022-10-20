@@ -39,26 +39,29 @@ class SunNewsSpider(scrapy.Spider):
                 url=article_url, meta={"category": response.meta["category"]}, callback=self.scrape_item)
 
     def scrape_item(self, response):
-
-        headline = response.css(".jeg_post_title::text").extract_first()
         try:
-            image_url = response.css(".featured_image")[0].css("a::attr(href)").extract_first()
+            headline = response.css(".jeg_post_title::text").extract_first()
+            try:
+                image_url = response.css(".featured_image")[0].css("a::attr(href)").extract_first()
+            except:
+                # No image
+                image_url = ""
+                pass
+            author = response.css(".jeg_author_name")[0].css("a::text").extract_first().strip()
+            posted_date = response.css(".jeg_meta_date")[0].css("a::text").extract_first().strip()
+            paragraphs_obj = response.css(".content-inner")[0].css("p")
+            paragraphs = [item.css("span::text").extract_first() for item in paragraphs_obj]
+            description = " ".join(paragraphs)
+            yield {
+                'headline': headline,
+                'image_url': image_url,
+                'author': author,
+                'posted_date': posted_date,
+                'description': description,
+                'newspaper_name': "The Sun News Paper",
+                'category': response.meta["category"],
+                'url': response.url
+            }
         except:
-            # No image
-            image_url = ""
+            print("url {} has empty content or different structure".format(response.url))
             pass
-        author = response.css(".jeg_author_name")[0].css("a::text").extract_first().strip()
-        posted_date = response.css(".jeg_meta_date")[0].css("a::text").extract_first().strip()
-        paragraphs_obj = response.css(".content-inner")[0].css("p")
-        paragraphs = [item.css("span::text").extract_first() for item in paragraphs_obj]
-        description = " ".join(paragraphs)
-        yield {
-            'headline': headline,
-            'image_url': image_url,
-            'author': author,
-            'posted_date': posted_date,
-            'description': description,
-            'newspaper_name': "The Sun News Paper",
-            'category': response.meta["category"],
-            'url': response.url
-        }
