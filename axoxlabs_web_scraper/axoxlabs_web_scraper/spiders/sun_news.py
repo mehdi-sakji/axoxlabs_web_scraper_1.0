@@ -47,9 +47,10 @@ class SunNewsSpider(scrapy.Spider):
             # No image
             image_url = ""
             pass
-        author = response.css(".jeg_author_name::text").extract_first().strip()
+        author = response.css(".jeg_author_name")[0].css("a::text").extract_first().strip()
         posted_date = response.css(".jeg_meta_date")[0].css("a::text").extract_first().strip()
-        paragraphs = response.css(".content-inner")[0].css("p::text").extract()
+        paragraphs_obj = response.css(".content-inner")[0].css("p")
+        paragraphs = [item.css("span::text").extract_first() for item in paragraphs_obj]
         description = " ".join(paragraphs)
         yield {
             'headline': headline,
