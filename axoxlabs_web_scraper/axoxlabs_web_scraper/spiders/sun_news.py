@@ -1,9 +1,9 @@
 import scrapy
 
 
-class SunnewsonlineSpider(scrapy.Spider):
+class SunNewsSpider(scrapy.Spider):
 
-    name = "sunnewsonline"
+    name = "sun_news"
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0'}
 
     def start_requests(self):
