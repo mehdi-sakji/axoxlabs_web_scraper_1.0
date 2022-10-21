@@ -21,7 +21,7 @@ class TheGuardianSpider(scrapy.Spider):
     # TODO integrate pagination OR selenium OR API to load more articles
     def scrape_items(self, response):
 
-        three_articles_block = response.css(".list-articlest")
+        three_articles_block = response.css(".list-articles")
         for three in three_articles_block:
             article_blocks = response.css(".item")
             for article in article_blocks:
