@@ -28,7 +28,7 @@ class NetNaijaSpider(scrapy.Spider):
 
         article_blocks = response.css(".post-entries")[0].css(".post-one")
         for article in article_blocks:
-            article_url = article.css("a::attr(href)").extract_first()
+            article_url = article.css("h2")[0].css("a::attr(href)").extract_first()
             yield scrapy.Request(
                 url=article_url, callback=self.scrape_item)
 
