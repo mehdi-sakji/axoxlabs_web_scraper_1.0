@@ -31,7 +31,7 @@ class TheGuardianSpider(scrapy.Spider):
 
     def scrape_item(self, response):
         article_header = response.css(".article-header")[0]
-        headline = article-header.css(".title::text").extract_first()
+        headline = article_header.css(".title::text").extract_first()
         try:
             image_url = article-header.css("img::attr(src)").extract_first()
         except:
