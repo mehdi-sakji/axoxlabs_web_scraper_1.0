@@ -48,7 +48,7 @@ class TheGuardianSpider(scrapy.Spider):
             'author': author,
             'posted_date': posted_date,
             'description': description,
-            'newspaper_name': "The Sun News Paper",
+            'newspaper_name': "The Guardian",
             'category': response.meta["category"],
             'url': response.url
         }
