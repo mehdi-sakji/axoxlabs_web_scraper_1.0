@@ -48,7 +48,7 @@ class TribuneSpider(scrapy.Spider):
             'author': author,
             'posted_date': posted_date,
             'description': description,
-            'newspaper_name': "The Sun News Paper",
+            'newspaper_name': "Nigerian Tribune",
             'category': response.meta["category"],
             'url': response.url
         }
