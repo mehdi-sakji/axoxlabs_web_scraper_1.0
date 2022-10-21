@@ -58,6 +58,6 @@ class NetNaijaSpider(scrapy.Spider):
             'posted_date': posted_date,
             'description': description,
             'newspaper_name': "TheNetNaija Newspaper",
-            'category': self.categories_mapping(category),
+            'category': self.categories_mapping[category],
             'url': response.url
         }
