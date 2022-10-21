@@ -39,10 +39,8 @@ class TribuneSpider(scrapy.Spider):
 
         author = response.css(".post-author-name")[0].css("b::text").extract_first().strip()
         posted_date = response.css(".post-published")[0].css("b::text").extract_first().strip()
-        paragraphs = response.css(".single-post-content *:not(style)::text").extract()
+        paragraphs = response.css(".single-post-content")[0].css("p::text").extract()
         paragraphs = [item.strip() for item in paragraphs]
-        # paragraphs_obj = response.css(".content-inner")[0].css("p")
-        # paragraphs = [item.css("span::text").extract_first() for item in paragraphs_obj]
         description = " ".join(paragraphs)
         yield {
             'headline': headline,
