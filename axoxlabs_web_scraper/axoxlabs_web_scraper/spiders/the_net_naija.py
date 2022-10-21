@@ -36,7 +36,7 @@ class NetNaijaSpider(scrapy.Spider):
 
         headline = response.css(".page-h1::text").extract_first()
         print(headline)
-        post_meta = response.css(".post-meta")[0]
+        # post_meta = response.css(".post-meta")[0]
         article = response.css("article")[0]
         
         
@@ -45,18 +45,20 @@ class NetNaijaSpider(scrapy.Spider):
         except:
             image_url = None
             pass
+        """
         category = post_meta.css("span::text").extract()[0].strip()
         author = post_meta.css("span::text").extract()[2].strip()
         posted_date = post_meta.css("span::text").extract()[1].strip()
+        """
         paragraphs = article.css("p::text").extract()
         description = " ".join(paragraphs)
         yield {
             'headline': headline,
             'image_url': image_url,
-            'author': author,
-            'posted_date': posted_date,
+            #'author': author,
+            #'posted_date': posted_date,
             'description': description,
             'newspaper_name': "TheNetNaija Newspaper",
-            'category': self.categories_mapping(category),
+            #'category': self.categories_mapping(category),
             'url': response.url
         }
