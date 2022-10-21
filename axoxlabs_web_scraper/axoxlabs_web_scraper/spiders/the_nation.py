@@ -1,16 +1,8 @@
-"""
-https://thenationonlineng.net/ scraper.
-"""
-
 import scrapy
 
-
-class TheNationScraper(scrapy.Spider):
-    """
-    Spider for scraping https://thenationonlineng.net articles.
-    """
-
-    name = "thenation_scraper"
+class TheNationSpider(scrapy.Spider):
+    
+    name = "the_nation"
 
     def start_requests(self):
         """
