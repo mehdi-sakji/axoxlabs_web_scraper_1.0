@@ -29,7 +29,7 @@ class TheNationSpider(scrapy.Spider):
             for item in list_categories_pages.keys() for i in range(list_categories_pages[item])]
         for url in lists_categories_pages_urls:
             yield scrapy.Request(
-                url=url["url"], meta={"category": url["category"]}, callback=self.scrape_page)
+                url=url["url"], headers=self.headers, meta={"category": url["category"]}, callback=self.scrape_page)
 
     def scrape_page(self, response):
 
