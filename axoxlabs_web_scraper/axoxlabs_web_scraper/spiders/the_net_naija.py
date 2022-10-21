@@ -35,6 +35,7 @@ class NetNaijaSpider(scrapy.Spider):
     def scrape_item(self, response):
 
         headline = response.css(".page-h1::text").extract_first()
+        print(headline)
         post_meta = response.css(".post-meta")[0]
         article = response.css("article")[0]
         
