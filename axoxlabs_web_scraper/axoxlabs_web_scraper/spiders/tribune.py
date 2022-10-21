@@ -12,7 +12,7 @@ class TribuneSpider(scrapy.Spider):
 
         list_categories = [
           "news", "health", "entertainment", "business"]
-        # sports needs a specific spider
+        # Sports needs a specific spider
         lists_urls = [
             "https://tribuneonlineng.com/{}".format(item) for item in list_categories]
         for url, category in zip(lists_urls, list_categories):
