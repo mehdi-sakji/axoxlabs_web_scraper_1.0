@@ -1,17 +1,10 @@
-"""
-dailypost.ng scraper.
-"""
-
 import scrapy
 
-
-class DailyPostScraper(scrapy.Spider):
-    """
-    Spider for scraping dailypost.ng articles.
-    """
-
-    name = "dailypost_scraper"
-
+class DailyPostSpider(scrapy.Spider):
+    
+    name = "dailypost"
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0'}
+    
     def start_requests(self):
         """
         Yields list of categories URLs to scrape.
@@ -21,6 +14,7 @@ class DailyPostScraper(scrapy.Spider):
         # list_categories_pages = {
         #    "politics": 4000, "hot-news": 11800, "sport-news": 5000, "entertainment": 1200
         # }
+        # Temporarily test on 2 pages per category
         list_categories_pages = {
             "politics": 2, "hot-news": 2, "sport-news": 2, "entertainment": 2
         }
@@ -32,7 +26,7 @@ class DailyPostScraper(scrapy.Spider):
             for item in list_categories_pages.keys() for i in range(list_categories_pages[item])]
         for url in lists_categories_pages_urls:
             yield scrapy.Request(
-                url=url["url"], meta={"category": url["category"]}, callback=self.scrape_page)
+                url=url["url"], headers=self.headers, meta={"category": url["category"]}, callback=self.scrape_page)
 
     def scrape_page(self, response):
 
