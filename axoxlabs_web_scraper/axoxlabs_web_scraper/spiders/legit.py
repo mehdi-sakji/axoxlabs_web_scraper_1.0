@@ -31,7 +31,7 @@ class LegitSpider(scrapy.Spider):
             yield scrapy.Request(
                 url=url, headers=self.headers, meta={"category": categories_mapping[category]}, callback=self.scrape_items)
 
-    # TODO integrate pagination OR selenium OR API to load more articles
+    # TODO figure out way to load more (selenium or api)
     def scrape_items(self, response):
 
         header_articles_block = response.css(".l-taxonomy-page-hero__list")[0]
