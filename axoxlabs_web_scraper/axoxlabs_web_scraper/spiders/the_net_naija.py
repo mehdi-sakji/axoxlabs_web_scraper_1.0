@@ -19,6 +19,7 @@ class NetNaijaSpider(scrapy.Spider):
 
         # > Exact page count
         n_pages = 4000
+        n_pages = 10 # Temporarily test for 10 pages
         for i in range(n_pages):
             url = "https://www.thenetnaija.net/posts/page/{}".format(str(i+1))
             yield scrapy.Request(
