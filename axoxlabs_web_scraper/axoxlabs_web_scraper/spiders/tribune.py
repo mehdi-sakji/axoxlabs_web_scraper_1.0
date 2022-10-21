@@ -28,32 +28,27 @@ class TribuneSpider(scrapy.Spider):
                 url=article_url, meta={"category": response.meta["category"]}, callback=self.scrape_item)
 
     def scrape_item(self, response):
+        headline = response.css(".post_title::text").extract_first()
         try:
-            headline = response.css(".post_title::text").extract_first()
-            
-            try:
-                image_url = response.css(".post-thumbnail::attr(href)").extract_first()
-            except:
-                # No image
-                image_url = ""
-                pass
-              
-            author = response.css(".post-author-name")[0].css("b::text").extract_first().strip()
-            posted_date = response.css(".post-published")[0].css("b::text").extract_first().strip()
-            paragraphs = response.css(".single-post-content:: *text").extract()
-            # paragraphs_obj = response.css(".content-inner")[0].css("p")
-            # paragraphs = [item.css("span::text").extract_first() for item in paragraphs_obj]
-            description = " ".join(paragraphs)
-            yield {
-                'headline': headline,
-                'image_url': image_url,
-                'author': author,
-                'posted_date': posted_date,
-                'description': description,
-                'newspaper_name': "The Sun News Paper",
-                'category': response.meta["category"],
-                'url': response.url
-            }
+            image_url = response.css(".post-thumbnail::attr(href)").extract_first()
         except:
-            print("url {} has empty content or different structure".format(response.url))
+            # No image
+            image_url = ""
             pass
+
+        author = response.css(".post-author-name")[0].css("b::text").extract_first().strip()
+        posted_date = response.css(".post-published")[0].css("b::text").extract_first().strip()
+        paragraphs = response.css(".single-post-content:: *text").extract()
+        # paragraphs_obj = response.css(".content-inner")[0].css("p")
+        # paragraphs = [item.css("span::text").extract_first() for item in paragraphs_obj]
+        description = " ".join(paragraphs)
+        yield {
+            'headline': headline,
+            'image_url': image_url,
+            'author': author,
+            'posted_date': posted_date,
+            'description': description,
+            'newspaper_name': "The Sun News Paper",
+            'category': response.meta["category"],
+            'url': response.url
+        }
