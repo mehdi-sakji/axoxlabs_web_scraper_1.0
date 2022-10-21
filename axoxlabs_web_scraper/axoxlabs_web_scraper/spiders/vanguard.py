@@ -1,38 +1,26 @@
-"""
-https://www.vanguardngr.com/ scraper.
-"""
-
 import scrapy
 from scrapy.spiders import Rule
 from scrapy.linkextractors import LinkExtractor
 
-class VanguardScraper(scrapy.Spider):
-    """
-    Spider for scraping https://www.vanguardngr.com/ articles.
-    """
-
-    name = "vanguard_scraper"
+class VanguardSpider(scrapy.Spider):
     
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
+    name = "vanguard"
+    
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0'}
 
     def start_requests(self):
-        """
-        Yields list of categories URLs to scrape.
-        """
 
         categories_mapping = {
             "politics": "politics", "business": "business",
             "national-news": "news", "sports": "sports", "entertainment": "entertainment"}
-        # Only 2 categories for test
-        categories_mapping = {
-            "politics": "politics", "business": "business"}
         list_categories = categories_mapping.keys()
         lists_urls = [
             "https://www.vanguardngr.com/category/{}/".format(item) for item in list_categories]
         for url, category in zip(lists_urls, list_categories):
             yield scrapy.Request(
-                url=url, meta={"category": category}, headers={'User-Agent': self.user_agent}, callback=self.scrape_items)
-
+                url=url, meta={"category": category}, headers=self.headers, callback=self.scrape_items)
+    
+    """
     def set_user_agent(self, request, spider):
         request.headers['User-Agent'] = self.user_agent
         return request
@@ -41,6 +29,7 @@ class VanguardScraper(scrapy.Spider):
         Rule(LinkExtractor(restrict_xpaths="//h1[@class='post-title']/a"), callback='parse_item', follow=True, process_request='set_user_agent'),
          Rule(LinkExtractor(restrict_xpaths="//h3[@class='entry-title']/a"), callback='parse_item', follow=True, process_request='set_user_agent')
     )
+    """
 
     def scrape_items(self, response):
 
