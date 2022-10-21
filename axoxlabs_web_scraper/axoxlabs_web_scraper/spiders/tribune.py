@@ -29,7 +29,7 @@ class TribuneSpider(scrapy.Spider):
 
     def scrape_item(self, response):
         
-        headline = response.css(".post_title::text").extract_first()
+        headline = response.css(".single-post-title")[0].css("span::text").extract_first()
         try:
             image_url = response.css(".post-thumbnail::attr(href)").extract_first()
         except:
