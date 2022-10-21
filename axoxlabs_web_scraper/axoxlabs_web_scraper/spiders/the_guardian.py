@@ -30,29 +30,25 @@ class TheGuardianSpider(scrapy.Spider):
                     url=article_url, meta={"category": response.meta["category"]}, callback=self.scrape_item)
 
     def scrape_item(self, response):
+        article_header = response.css(".article-header")[0]
+        headline = article-header.css(".title::text").extract_first()
         try:
-            article_header = response.css(".article-header")[0]
-            headline = article-header.css(".title::text").extract_first()
-            try:
-                image_url = article-header.css("img::attr(src)").extract_first()
-            except:
-                # No image
-                image_url = ""
-                pass
-            author = response.css(".author")[0].css("strong::text").extract_first().strip()
-            posted_date = response.css(".date::text").extract_first().strip()
-            paragraphs = response.css(".single-article")[0].css("p::text").extract()
-            description = " ".join(paragraphs)
-            yield {
-                'headline': headline,
-                'image_url': image_url,
-                'author': author,
-                'posted_date': posted_date,
-                'description': description,
-                'newspaper_name': "The Sun News Paper",
-                'category': response.meta["category"],
-                'url': response.url
-            }
+            image_url = article-header.css("img::attr(src)").extract_first()
         except:
-            print("url {} has empty content or different structure".format(response.url))
+            # No image
+            image_url = ""
             pass
+        author = response.css(".author")[0].css("strong::text").extract_first().strip()
+        posted_date = response.css(".date::text").extract_first().strip()
+        paragraphs = response.css(".single-article")[0].css("p::text").extract()
+        description = " ".join(paragraphs)
+        yield {
+            'headline': headline,
+            'image_url': image_url,
+            'author': author,
+            'posted_date': posted_date,
+            'description': description,
+            'newspaper_name': "The Sun News Paper",
+            'category': response.meta["category"],
+            'url': response.url
+        }
