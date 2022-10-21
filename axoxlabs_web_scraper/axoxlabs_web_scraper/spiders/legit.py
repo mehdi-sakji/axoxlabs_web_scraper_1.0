@@ -41,7 +41,7 @@ class LegitSpider(scrapy.Spider):
         body_articles_urls = [
             item.css("a::attr(href)").extract_first() for item in body_articles_block.css("article")]
         
-        for url in header_articles_block + body_articles_block:
+        for url in header_articles_urls + body_articles_urls:
             yield scrapy.Request(
                 url=url, meta={"category": response.meta["category"]}, callback=self.scrape_item)
 
