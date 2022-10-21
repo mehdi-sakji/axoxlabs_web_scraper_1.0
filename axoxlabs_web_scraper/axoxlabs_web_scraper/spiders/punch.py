@@ -1,7 +1,3 @@
-"""
-Punch spider.
-"""
-
 import scrapy
 
 
