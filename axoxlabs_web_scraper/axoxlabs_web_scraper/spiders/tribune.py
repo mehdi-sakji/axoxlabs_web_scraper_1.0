@@ -19,7 +19,7 @@ class TribuneSpider(scrapy.Spider):
             yield scrapy.Request(
                 url=url, headers=self.headers, meta={"category": category}, callback=self.scrape_items)
 
-    def scrape_items(self, response):
+   def scrape_items(self, response):
 
         article_blocks = response.css(".pt-cv-ifield")
         for article in article_blocks:
