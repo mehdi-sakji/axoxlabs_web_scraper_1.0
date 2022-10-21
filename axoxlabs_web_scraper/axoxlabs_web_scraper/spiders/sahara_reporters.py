@@ -1,7 +1,6 @@
 import scrapy
 import re
 
-
 class SaharaReportersSpider(scrapy.Spider):
 
     name = "sahara_reporters"
