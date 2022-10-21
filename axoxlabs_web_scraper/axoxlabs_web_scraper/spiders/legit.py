@@ -11,8 +11,19 @@ class LegitSpider(scrapy.Spider):
         """
 
         categories_mapping = {
-            "politics": "politics", "business-economy": "business", "entertainment": "entertainment",
-            "nigeria": "news", "world": "news"}
+            "politics": "politics",
+            
+            "business-economy/technology": "business", "business-economy/money": "business",
+            "business-economy/energy": "business", "business-economy/capital-market": "business",
+            "business-economy/industry": "business", "business-economy/industry": "economy",
+            
+            "entertainment/celebrities": "entertainment", "entertainment/movies": "entertainment",
+            "entertainment/music": "entertainment", "entertainment/tv-shows": "entertainment",
+            "entertainment/gist": "entertainment", "entertainment/nollywood": "entertainment",
+            "entertainment/fashion": "entertainment",
+            
+            "nigeria": "news", "world/europe": "news", "world/africa": "news", "world/us": "news"}
+        
         # Sports need a custom spider
         lists_urls = [
             "https://www.legit.ng/{}".format(item) for item in categories_mapping.keys()]
