@@ -13,7 +13,6 @@ class PunchSpider(scrapy.Spider):
 
         list_categories = [
             "politics", "news", "sports", "entertainment", "business"]
-        list_categories = list_categories[:3]  # Temporarily test 3 categories
         lists_urls = [
             "https://punchng.com/topics/{}".format(item) for item in list_categories]
         for url, category in zip(lists_urls, list_categories):
@@ -23,7 +22,7 @@ class PunchSpider(scrapy.Spider):
     def scrape_items(self, response):
 
         number_pages = response.css(".page-link::text").extract()[-2].strip().replace(",", "")
-        number_pages = 2  # Temporarily test 2 pages
+        number_pages = 2  # TEMPORARILY FOR TEST
         for page_num in range(number_pages):
             yield scrapy.Request(
                 url="{}/page/{}".format(response.url, str(page_num+1)),
@@ -45,7 +44,7 @@ class PunchSpider(scrapy.Spider):
             'headline': response.xpath("////h1[@class='post-title']/text()").get(),
             'image_url': response.xpath("//div[@class='post-image-wrapper']/figure/img/@src").get(),
             'author': response.xpath(
-                "(//span[@class='post-author']/strong)[1]/text()[normalize-space()]").get().strip(),
+                "(//span[@class='post-author'])[1]/text()[normalize-space()]").get().strip(),
             'posted_date': response.xpath("//span[@class='post-date']/text()[normalize-space()]").get().strip(),
             'description': response.xpath("(//div[@class='post-content']/p)[1]/text()").get(),
             'newspaper_name': "Punch Newspaper",
