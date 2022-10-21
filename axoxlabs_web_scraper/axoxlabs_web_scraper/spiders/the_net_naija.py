@@ -45,6 +45,7 @@ class NetNaijaSpider(scrapy.Spider):
             image_url = None
             pass
         
+        import pdb; pdb.set_trace()
         category = post_meta.css("span::text").extract()[0].strip()
         author = post_meta.css("span::text").extract()[2].strip()
         posted_date = post_meta.css("span::text").extract()[1].strip()
