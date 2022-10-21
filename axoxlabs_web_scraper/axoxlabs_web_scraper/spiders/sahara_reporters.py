@@ -23,7 +23,7 @@ class SaharaReportersSpider(scrapy.Spider):
 
         number_pages_str = response.css(".pagination-next::attr(href)").extract()[-1].strip().replace(",", "").split("page=")[1]
         number_pages = int(number_pages_str)
-        number_pages = 2  # Temporarily test 3 pages
+        number_pages = 2  # Temporarily test 2 pages
         for page_num in range(number_pages+1):
             yield scrapy.Request(
                 url="{}&page={}".format(response.url, str(page_num)),
