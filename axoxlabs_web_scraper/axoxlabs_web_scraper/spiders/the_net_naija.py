@@ -1,43 +1,32 @@
-"""
-https://www.thenetnaija.net/ scraper.
-"""
-
 import scrapy
 
-
-class NetNaijaScraper(scrapy.Spider):
+class NetNaijaSpider(scrapy.Spider):
     """
     Spider for scraping thenetnaija.net articles.
     """
 
-    name = "netnaija_scraper"
+    name = "net_naija"
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0'}
 
     def start_requests(self):
         """
         Yields list of categories URLs to scrape.
         """
 
-        # Exact page count
-        # list_categories_pages = {
-        #    "posts": 3679, "videos": 864, "music": 750
-        # }
-        # >exact page count
-        list_categories_pages = {
-           "posts/news": 3500, "videos": 900, "music": 750
-        }
-        # Page count for test
-        list_categories_pages = {
-            "posts/news": 2, "videos": 2, "music": 2
-        }
+        # > Exact page count
+        n_pages = 4000
+        
         categories_mapping = {
-            "posts/news": "news", "videos": "entertainment", "music": "entertainment"}
+            "News": "news", "BBNaija 2022": "news", "Celebrity Gist":"news", "Social Media":"news", "World":"news",
+        
+        }
         # TODO handle embedded categories news --> politics (sports etc)
         lists_categories_pages_urls = [
             {"url": "https://www.thenetnaija.net/{}/page/{}".format(item, i+1), "category": categories_mapping[item]}
             for item in list_categories_pages.keys() for i in range(list_categories_pages[item])]
         for url in lists_categories_pages_urls:
             yield scrapy.Request(
-                url=url["url"], meta={"category": url["category"]}, callback=self.scrape_page)
+                url=url["url"], headers=self.headers, meta={"category": url["category"]}, callback=self.scrape_page)
 
     def scrape_page(self, response):
 
