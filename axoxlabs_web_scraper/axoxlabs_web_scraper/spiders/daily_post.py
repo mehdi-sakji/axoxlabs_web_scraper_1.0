@@ -10,17 +10,16 @@ class DailyPostSpider(scrapy.Spider):
         Yields list of categories URLs to scrape.
         """
 
-        # upper limit page counts, only for first execution, then just scan the n last pages
-        # list_categories_pages = {
-        #    "politics": 4000, "hot-news": 11800, "sport-news": 5000, "entertainment": 1200
-        # }
-        # Temporarily test on 2 pages per category
+        # Upper limit page counts, only for first execution, then just scan the n last pages
+        list_categories_pages = {
+            "politics": 4000, "hot-news": 11800, "sport-news": 5000, "entertainment": 1200
+         }
+        # TEMPORARILY TEST 2
         list_categories_pages = {
             "politics": 2, "hot-news": 2, "sport-news": 2, "entertainment": 2
         }
         categories_mapping = {
-            "politics": "politics",
-            "hot-news": "news", "sport-news": "sports", "entertainment": "entertainment"}
+            "politics": "politics", "hot-news": "news", "sport-news": "sports", "entertainment": "entertainment"}
         lists_categories_pages_urls = [
             {"url": "https://dailypost.ng/{}/page/{}".format(item, i+1), "category": categories_mapping[item]}
             for item in list_categories_pages.keys() for i in range(list_categories_pages[item])]
