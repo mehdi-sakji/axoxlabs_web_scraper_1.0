@@ -41,7 +41,7 @@ class PunchSpider(scrapy.Spider):
     def scrape_item(response):
 
         yield {
-            'headline': response.xpath("////h1[@class='post-title']/text()").get(),
+            'headline': response.xpath("////h1[@class='post-title']/text()").get().strip(),
             'image_url': response.xpath("//div[@class='post-image-wrapper']/figure/img/@src").get(),
             'author': response.xpath(
                 "(//span[@class='post-author'])[1]/text()[normalize-space()]").get().strip(),
