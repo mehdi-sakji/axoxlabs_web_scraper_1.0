@@ -39,7 +39,29 @@ class PunchSpider(scrapy.Spider):
 
     @staticmethod
     def scrape_item(response):
-
+        
+        headline = response.css(".post-title::text").extract_first()
+        try:
+            image_url = response.css(".post-image-wrapper")[0].css("figure")[0].css("img::attr(src)").extract_first()
+        except:
+            image_url = ""
+            pass
+        
+        author = response.css(".post-author")[0].css("a::text").extract_first().strip()
+        posted_date = response.css(".post-date::text").extract_first().strip()
+        paragraphs = response.css(".post-content")[0].css("p::text").extract()
+        description = " ".join(paragraphs)
+        yield {
+            'headline': headline,
+            'image_url': image_url,
+            'author': author,
+            'posted_date': posted_date,
+            'description': description,
+            'newspaper_name': "DailyPost Newspaper",
+            'category': response.meta["category"],
+            'url': response.url
+        }
+        """
         yield {
             'headline': response.xpath("////h1[@class='post-title']/text()").get().strip(),
             'image_url': response.xpath("//div[@class='post-image-wrapper']/figure/img/@src").get(),
@@ -51,3 +73,4 @@ class PunchSpider(scrapy.Spider):
             'category':  response.meta["category"],
             'url': response.url
         }
+        """
