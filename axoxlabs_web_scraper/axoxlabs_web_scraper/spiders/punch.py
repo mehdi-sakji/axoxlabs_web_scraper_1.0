@@ -50,14 +50,14 @@ class PunchSpider(scrapy.Spider):
         author = response.css(".post-author")[0].css("a::text").extract_first().strip()
         posted_date = response.css(".post-date::text").extract_first().strip()
         paragraphs = response.css(".post-content")[0].css("p::text").extract()
-        description = " ".join(paragraphs)
+        description = " ".join(paragraphs).strip()
         yield {
             'headline': headline,
             'image_url': image_url,
             'author': author,
             'posted_date': posted_date,
             'description': description,
-            'newspaper_name': "DailyPost Newspaper",
+            'newspaper_name': "Punch Newspaper",
             'category': response.meta["category"],
             'url': response.url
         }
