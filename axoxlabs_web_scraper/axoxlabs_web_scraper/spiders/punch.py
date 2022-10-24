@@ -40,7 +40,7 @@ class PunchSpider(scrapy.Spider):
     @staticmethod
     def scrape_item(response):
         
-        headline = response.css(".post-title::text").extract_first()
+        headline = response.css(".post-title::text").extract_first().strip()
         try:
             image_url = response.css(".post-image-wrapper")[0].css("figure")[0].css("img::attr(src)").extract_first()
         except:
